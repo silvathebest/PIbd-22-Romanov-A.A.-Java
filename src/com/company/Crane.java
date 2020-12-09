@@ -16,7 +16,7 @@ public class Crane {
     public boolean backPipe;
     public boolean frontCrane;
     public boolean hook;
-    private Track track;
+    private final Track track;
 
     public float getStartPosX() {
         return startPosX;
@@ -106,7 +106,7 @@ public class Crane {
     }
 
     public void moveTransport(Direction dir) {
-        float step = maxSpeed * 1000 / weight;
+        float step = maxSpeed * 100 / weight;
         switch (dir) {
             case Right:
                 if (startPosX + step < pictureWidth - vehicleWidth ) {

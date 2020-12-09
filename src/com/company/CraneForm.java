@@ -12,8 +12,8 @@ public class CraneForm {
     private JButton downButton;
     private JComboBox<Integer> choiceButton;
     private Crane crane;
-    private JFrame frame;
-    private DrawPicture draw;
+    private final JFrame frame;
+    private final DrawPicture draw;
 
     public void direction(JButton button) {
         String direct = button.getName();
