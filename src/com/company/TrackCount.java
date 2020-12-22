@@ -8,9 +8,9 @@ public enum TrackCount {
 
     public static TrackCount getCount(int count) {
         return switch (count) {
-            case 4 -> four;
-            case 5 -> five;
-            case 6 -> six;
+            case 0 -> four;
+            case 1 -> five;
+            case 2 -> six;
             default -> null;
         };
     }

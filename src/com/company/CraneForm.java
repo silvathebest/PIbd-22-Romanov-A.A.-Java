@@ -5,23 +5,27 @@ import java.awt.*;
 
 public class CraneForm {
 
-    private JButton createButton;
+    private JButton createTrackedButton;
+    private JButton createCraneButton;
     private JButton upButton;
     private JButton leftButton;
     private JButton rightButton;
     private JButton downButton;
-    private JComboBox<Integer> choiceButton;
-    private Crane crane;
+    private JComboBox<String> choiceCountTrackButton;
+    private JComboBox<String> choiceAddingButton;
+    private ITransport transport;
     private final JFrame frame;
     private final DrawPicture draw;
+    private final int windowWidth = 900;
+    private final int windowHeight = 500;
 
     public void direction(JButton button) {
         String direct = button.getName();
         switch (direct) {
-            case "Up" -> crane.moveTransport(Direction.Up);
-            case "Down" -> crane.moveTransport(Direction.Down);
-            case "Left" -> crane.moveTransport(Direction.Left);
-            case "Right" -> crane.moveTransport(Direction.Right);
+            case "Up" -> transport.moveTransport(Direction.Up);
+            case "Down" -> transport.moveTransport(Direction.Down);
+            case "Left" -> transport.moveTransport(Direction.Left);
+            case "Right" -> transport.moveTransport(Direction.Right);
         }
         frame.repaint();
     }
@@ -51,45 +55,52 @@ public class CraneForm {
         leftButton.setBounds(650, 350, 64, 64);
         leftButton.addActionListener(e -> direction(leftButton));
 
-        upButton.setEnabled(false);
-        downButton.setEnabled(false);
-        rightButton.setEnabled(false);
-        leftButton.setEnabled(false);
-
-        createButton = new JButton("Create");
-        createButton.setBounds(0, 0, 90, 30);
-        createButton.addActionListener(e -> {
-            crane = new Crane(100 + ((int) (Math.random() * 300)), 1000 + ((int) (Math.random() * 2000)), Color.BLACK,
-                    Color.YELLOW, true, true, true, choiceButton.getSelectedIndex() + 4);
-            crane.setPosition(10 + ((int) (Math.random() * 100)), 10 + ((int) (Math.random() * 100)), 900, 500);
-            upButton.setEnabled(true);
-            downButton.setEnabled(true);
-            rightButton.setEnabled(true);
-            leftButton.setEnabled(true);
-            draw.setVehicle(crane);
+        createTrackedButton = new JButton("TrackedVehicle");
+        createTrackedButton.setBounds(0, 0, 130, 30);
+        createTrackedButton.addActionListener(e -> {
+            transport = new TrackedVehicle(100 + ((int) (Math.random() * 300)), 1000 + ((int) (Math.random() * 2000)), Color.BLACK);
+            transport.setPosition(10 + ((int) (Math.random() * 100)), 10 + ((int) (Math.random() * 100)), windowWidth, windowHeight);
+            draw.setVehicle(transport);
             frame.repaint();
         });
 
-        choiceButton = new JComboBox<>(new Integer[]{4, 5, 6});
-        choiceButton.setBounds(0, 40, 90, 30);
+        createCraneButton = new JButton("Crane");
+        createCraneButton.setBounds(150, 0, 140, 30);
+        createCraneButton.addActionListener(e -> {
+            transport = new Crane(100 + ((int) (Math.random() * 300)), 1000 + ((int) (Math.random() * 2000)), Color.BLACK, Color.YELLOW,
+                    true, true, true, choiceAddingButton.getSelectedIndex(), choiceCountTrackButton.getSelectedIndex());
+            transport.setPosition(10 + ((int) (Math.random() * 100)), 10 + ((int) (Math.random() * 100)), windowWidth, windowHeight);
+            draw.setVehicle(transport);
+            frame.repaint();
+        });
+
+
+        choiceAddingButton = new JComboBox<>(new String[]{"Circle", "Cross", "Rectangle"});
+        choiceAddingButton.setBounds(0, 40, 130, 30);
+
+        choiceCountTrackButton = new JComboBox<>(new String[]{"4 roller", "5 roller", "6 roller"});
+        choiceCountTrackButton.setBounds(150, 40, 130, 30);
     }
 
     public CraneForm() {
         draw = new DrawPicture();
         frame = new JFrame("Кран");
-        frame.setSize(900, 500);
+        frame.setSize(windowWidth, windowHeight);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setResizable(false);
         initialization();
-        frame.getContentPane().add(createButton);
+        frame.getContentPane().add(createTrackedButton);
+        frame.getContentPane().add(createCraneButton);
         frame.getContentPane().add(upButton);
         frame.getContentPane().add(downButton);
         frame.getContentPane().add(leftButton);
         frame.getContentPane().add(rightButton);
-        frame.getContentPane().add(choiceButton);
+        frame.getContentPane().add(choiceAddingButton);
+        frame.getContentPane().add(choiceCountTrackButton);
         frame.getContentPane().add(draw);
-        draw.setBounds(0, 0, 900, 500);
+        draw.setBounds(0, 0, windowWidth, windowHeight);
         frame.repaint();
     }
 }
+

@@ -5,20 +5,20 @@ import java.awt.*;
 
 public class DrawPicture extends JPanel {
 
-    private Crane crane;
+    private ITransport transport;
 
     public void paintComponent(Graphics g) {
-        if (crane != null) {
-            crane.drawCrane(g);
+        if (transport != null) {
+            transport.draw(g);
         }
     }
 
-    public void setVehicle(Crane ex) {
-        this.crane = ex;
+    public void setVehicle(ITransport ex) {
+        this.transport = ex;
     }
 
-    public Crane getVehicle() {
-        return crane;
+    public ITransport getVehicle() {
+        return transport;
     }
 
 }
